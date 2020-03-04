@@ -208,13 +208,13 @@ int GenMatrixBinary::addMarker(const char* chrom, int position, char refBase, ch
 }
 
 int GenMatrixBinary::getGenotype(int indIndex, int markerIndex) {
-  int genoIndex = markerIndex * bytesPerMarker + indIndex / 4;
+  unsigned int genoIndex = markerIndex * bytesPerMarker + indIndex / 4;
   int offset = (indIndex % 4) * 2;
   return static_cast<int>(( genotypes[genoIndex] >> offset ) & 0x03);
 }
 
 double GenMatrixBinary::computeAlleleFrequency(int markerIndex) {
-  int genoIndex = (chroms.size()-1) * bytesPerMarker;
+  unsigned int genoIndex = (chroms.size()-1) * bytesPerMarker;
   int AC = 0;
   int AN = 0;
   for(int i=0; i < bytesPerMarker; ++i) {
@@ -242,7 +242,7 @@ double GenMatrixBinary::computeAlleleFrequency(int markerIndex) {
 }
 
 void GenMatrixBinary::setGenotype(unsigned short genotype, int indIndex, int markerIndex) {
-  int genoIndex = (chroms.size()-1) * bytesPerMarker + (indIndex / 4);
+  unsigned int genoIndex = (chroms.size()-1) * bytesPerMarker + (indIndex / 4);
   //int shift = ((indIndex % bytesPerMarker) * 2);
   int shift = ((indIndex % 4) * 2);
   int g1 = (genotype & 0x007f);
